@@ -7,8 +7,10 @@ let main_window: BrowserWindow
 
 function create_window() {
   main_window = new BrowserWindow({
+    width: 800,
+    height: 600,
     // 이것들은 제가 사용하는 설정이니 각자 알아서 설정 하십시오.
-    alwaysOnTop: true,
+    alwaysOnTop: false,
     center: true,
     fullscreen: false,
     kiosk: !isDev,
