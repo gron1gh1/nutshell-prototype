@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from 'electron'
+import { app, BrowserWindow, ipcMain, dialog } from 'electron'
 import * as isDev from 'electron-is-dev'
 import * as path from 'path'
 
@@ -21,6 +21,7 @@ function create_window() {
       // Node 환경처럼 사용하려면 (Node에서 제공되는 빌트인 패키지 사용 포함)
       // true 해야 합니다.
       nodeIntegration: true,
+      contextIsolation: false,
     },
   })
 
@@ -49,3 +50,7 @@ app.on('ready', create_window)
 app.on('window-all-closed', () => {
   app.quit()
 })
+
+ipcMain.on('login', (event,msg) => {
+  dialog.showErrorBox('Login', 'Login Failed')
+});

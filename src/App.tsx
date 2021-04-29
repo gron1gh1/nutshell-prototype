@@ -2,6 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import { Button, Form, Input } from 'antd';
 
+const {ipcRenderer} = window.require('electron');
+
 const LoginBG = styled.div`
   background: #ffbd59;
   height: 100vh;
@@ -27,7 +29,7 @@ function LoginForm() {
     <StyleForm>
       <Input placeholder="Username" />
       <Input.Password placeholder="Password" />
-      <Button type="primary" htmlType="submit" style={{ marginTop:'10px',width: '300px' }}>
+      <Button onClick={()=>ipcRenderer.send('login','aa')}type="primary" htmlType="submit" style={{ marginTop:'10px',width: '300px' }}>
         Login & Sign Up
       </Button>
     </StyleForm>
