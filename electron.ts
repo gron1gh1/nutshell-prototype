@@ -52,5 +52,5 @@ app.on('window-all-closed', () => {
 })
 
 ipcMain.on('login', (event,msg) => {
-  dialog.showErrorBox('Login', 'Login Failed')
+ // dialog.showErrorBox('Login', 'Login Failed')
 });

@@ -1,8 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Button, Form, Input } from 'antd';
+import { Link } from 'react-router-dom';
 
-const {ipcRenderer} = window.require('electron');
+const { ipcRenderer } = window.require('electron');
 
 const LoginBG = styled.div`
   background: #ffbd59;
@@ -24,19 +25,22 @@ const StyleForm = styled.div`
   align-items: center;
   margin-bottom: 50px;
 `
+
 function LoginForm() {
   return (
     <StyleForm>
       <Input placeholder="Username" />
       <Input.Password placeholder="Password" />
-      <Button onClick={()=>ipcRenderer.send('login','aa')}type="primary" htmlType="submit" style={{ marginTop:'10px',width: '300px' }}>
-        Login & Sign Up
+      <Link to={'/main'}>
+        <Button onClick={() => ipcRenderer.send('login', 'aa')} type="primary" htmlType="submit" style={{ marginTop: '10px', width: '300px' }}>
+          Login & Sign Up
       </Button>
+      </Link>
     </StyleForm>
   )
 }
 
-function App() {
+function Login() {
   return (
     <LoginBG>
       <Logo src={'login_background.png'} alt="logo" />
@@ -45,4 +49,4 @@ function App() {
   );
 }
 
-export default App;
+export default Login;
