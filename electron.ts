@@ -1,6 +1,9 @@
 import { app, BrowserWindow, ipcMain, dialog } from 'electron'
 import * as isDev from 'electron-is-dev'
 import * as path from 'path'
+import * as fs from 'fs';
+
+const ffmpeg = require('fluent-ffmpeg');
 
 // 1. GC가 일어나지 않도록 밖에 빼줌
 let main_window: BrowserWindow
@@ -9,6 +12,7 @@ function create_window() {
   main_window = new BrowserWindow({
     width: 800,
     height: 600,
+    transparent: true,
     // 이것들은 제가 사용하는 설정이니 각자 알아서 설정 하십시오.
     alwaysOnTop: false,
     center: true,
@@ -47,6 +51,20 @@ app.on('window-all-closed', () => {
   app.quit()
 })
 
-ipcMain.on('login', (event,msg) => {
- // dialog.showErrorBox('Login', 'Login Failed')
+ipcMain.on('login', (event, msg) => {
+  // dialog.showErrorBox('Login', 'Login Failed')
+});
+
+ipcMain.on('loadMp4', (event, inputPath) => {
+  let proc = ffmpeg(inputPath);
+  console.log(proc);
+  proc.setFfmpegPath(process.env.FFMPEG_PATH !== undefined ? process.env.FFMPEG_PATH : "C:\\ffmpeg\\bin\\ffmpeg")
+    .toFormat('mp3')
+    .on('end', () => {
+      console.log('done !');
+    })
+    .on('error', (err : any) => {
+      console.log('error', err);
+    })
+    .saveToFile(path.join(__dirname,"output","output.mp3"));
 });
