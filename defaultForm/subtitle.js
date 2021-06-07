@@ -6,17 +6,18 @@ window.onload = () => {
   const subtitleDom = document.getElementById("subtitle");
 
   let prev = 0;
-  const allResultText = "";
+  let allResultText = "";
 
-  electron.ipcRenderer.on("record_stop", (event, msg) => {
-    require("electron").ipcRenderer.send('getAllResultText',allResultText);
+  electron.ipcRenderer.on("stop_record", (event, msg) => {
+ 
+    electron.ipcRenderer.send('getAllResultText',allResultText);
     allResultText = "";
   });
 
 
   electron.ipcRenderer.on("getSubtitle", (event, msg) => {
     const { subtitle, isFinal } = msg;
-
+    console.log(isFinal);
     const token = subtitle.split(" ");
     console.log(token.length, Math.floor(token.length / 10) * 10);
     if (token.length > 10) {

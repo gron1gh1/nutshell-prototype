@@ -76,6 +76,14 @@ app.on("window-all-closed", () => {
 
 ipcMain.on("login", (event, msg) => {
   // dialog.showErrorBox('Login', 'Login Failed')
+
+});
+
+ipcMain.on("Subtitle_Resize", (event, width,height) => {
+  subtitleWindow.setSize(width,height);
+});
+
+ipcMain.on("start_SpeechToText", (event, msg) => {
   subtitleWindow.show();
 
   STT.onTrans = (subtitle, isFinal) => {
@@ -86,18 +94,15 @@ ipcMain.on("login", (event, msg) => {
   STT.startStream();
 });
 
-ipcMain.on("Subtitle_Resize", (event, width,height) => {
-  subtitleWindow.setSize(width,height);
-});
-
-ipcMain.on("start_SpeechToText", (event, msg) => {
-  
-});
-
 ipcMain.on("stop_SpeechToText", (event, msg) => {
+  subtitleWindow.hide();
   STT.stopStream();
+  subtitleWindow.webContents.send("stop_record");
 });
 
+ipcMain.on("getAllResultText",(event,msg) => {
+  mainWindow.webContents.send("getAllResultText",msg);
+});
 
 ipcMain.on("loadMp4", (event, inputPath) => {
   let proc = ffmpeg(inputPath);
